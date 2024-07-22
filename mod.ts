@@ -14,15 +14,16 @@
  * ];
  *
  * console.log(t.toString());
- * ```
  * 
- * @returns
+ * 
+ * Expected output:
  * ╭──────┬────────┬─────────╮
  * │ text │ number │ boolean │
  * ├──────┼────────┼─────────┤
  * │ a    │      0 │   true  │
  * │ bb   │     10 │  false  │
  * ╰──────┴────────┴─────────╯
+ * ```
  *
  * @module
  */
