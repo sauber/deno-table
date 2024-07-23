@@ -34,7 +34,7 @@ Deno.test("Display Rows", () => {
 
 Deno.test("Display Headers and Rows", { ignore: true }, () => {
   const t = new Table();
-  t.theme = t.roundTheme;
+  t.theme = Table.roundTheme;
   t.headers = ["text", "number", "boolean"];
   t.rows = [
     ["a", 0, true],

@@ -37,7 +37,7 @@ export class Table {
   public rows: CellTypes[][] = [];
 
   /** Border theme for narrow table */
-  public readonly narrowTheme: Theme = {
+  public static narrowTheme: Theme = {
     top: ["╔", "═", "╤", "╗"],
     row: ["║", " ", "│", "║"],
     div: ["╟", "─", "┼", "╢"],
@@ -45,14 +45,14 @@ export class Table {
   };
 
   /** Border theme for wide content */
-  public readonly wideTheme: Theme = {
+  public static wideTheme: Theme = {
     top: ["╔═", "═", "═╤═", "═╗"],
     row: ["║ ", " ", " │ ", " ║"],
     div: ["╟─", "─", "─┼─", "─╢"],
     bot: ["╚═", "═", "═╧═", "═╝"],
   };
 
-  public readonly roundTheme: Theme = {
+  public static roundTheme: Theme = {
     top: ["╭─", "─", "─┬─", "─╮"],
     row: ["│ ", " ", " │ ", " │"],
     div: ["├─", "─", "─┼─", "─┤"],
@@ -60,7 +60,7 @@ export class Table {
   };
 
   /** Set theme */
-  public theme = this.wideTheme;
+  public theme = Table.wideTheme;
 
   /** Decide width of each column */
   private columnWidth(): number[] {
