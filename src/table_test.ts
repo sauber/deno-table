@@ -20,7 +20,6 @@ Deno.test("Display Title", () => {
 Deno.test("Display Headers", () => {
   const t = new Table();
   t.headers = ["a", "b"];
-  //console.log(t.toString());
   assertEquals(
     t.toString(),
     "╔═══╤═══╗\n" + "║ \x1b[1ma\x1b[0m │ \x1b[1mb\x1b[0m ║\n" + "╚═══╧═══╝",
@@ -30,17 +29,24 @@ Deno.test("Display Headers", () => {
 Deno.test("Display Rows", () => {
   const t = new Table();
   t.rows = [["a", "b"]];
-  //console.log(t.toString());
   assertEquals(t.toString(), "╔═══╤═══╗\n" + "║ a │ b ║\n" + "╚═══╧═══╝");
 });
 
 Deno.test("Display Headers and Rows", { ignore: true }, () => {
   const t = new Table();
-  t.theme = Table.roundTheme;
+  t.theme = t.roundTheme;
   t.headers = ["text", "number", "boolean"];
   t.rows = [
     ["a", 0, true],
     ["bb", 10, false],
   ];
+  console.log(t.toString());
+});
+
+Deno.test("Display Object", { ignore: true }, () => {
+  const t = new Table();
+  class O {}
+  const r = { foo: "bar" };
+  t.rows = [[new O(), r]];
   console.log(t.toString());
 });

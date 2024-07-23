@@ -14,8 +14,7 @@
  * ];
  *
  * console.log(t.toString());
- * 
- * 
+ *
  * Expected output:
  * ╭──────┬────────┬─────────╮
  * │ text │ number │ boolean │

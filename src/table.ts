@@ -1,4 +1,4 @@
-type CellTypes = number | string | boolean | undefined;
+type CellTypes = number | string | boolean | undefined | object;
 type BorderSymbols = [string, string, string, string];
 type Theme = {
   top: BorderSymbols;
@@ -37,7 +37,7 @@ export class Table {
   public rows: CellTypes[][] = [];
 
   /** Border theme for narrow table */
-  static narrowTheme: Theme = {
+  public readonly narrowTheme: Theme = {
     top: ["╔", "═", "╤", "╗"],
     row: ["║", " ", "│", "║"],
     div: ["╟", "─", "┼", "╢"],
@@ -45,23 +45,22 @@ export class Table {
   };
 
   /** Border theme for wide content */
-  static wideTheme: Theme = {
+  public readonly wideTheme: Theme = {
     top: ["╔═", "═", "═╤═", "═╗"],
     row: ["║ ", " ", " │ ", " ║"],
     div: ["╟─", "─", "─┼─", "─╢"],
     bot: ["╚═", "═", "═╧═", "═╝"],
   };
 
-  /** Border theme for wide content */
-  static roundTheme: Theme = {
+  public readonly roundTheme: Theme = {
     top: ["╭─", "─", "─┬─", "─╮"],
     row: ["│ ", " ", " │ ", " │"],
     div: ["├─", "─", "─┼─", "─┤"],
     bot: ["╰─", "─", "─┴─", "─╯"],
   };
 
-  /** Border theme */
-  public theme = Table.wideTheme;
+  /** Set theme */
+  public theme = this.wideTheme;
 
   /** Decide width of each column */
   private columnWidth(): number[] {
@@ -78,6 +77,7 @@ export class Table {
 
   /** Render cell content as a string */
   private cast(content: CellTypes): string {
+    if (typeof content === "object") return "obj";
     if (content !== undefined && typeof content.toString === "function") {
       return content.toString();
     } else return "";
@@ -109,16 +109,17 @@ export class Table {
     const pad = cellWidth - str.length;
     const bl = this.theme.row[1];
     switch (typeof content) {
+      case "number":
+        return bl.repeat(pad) + rich;
+      case "string":
+        return rich + bl.repeat(pad);
       case "boolean":
+      case "object":
         return (
           bl.repeat(Math.ceil(pad / 2)) +
           ansi("italic", str) +
           bl.repeat(Math.floor(pad / 2))
         );
-      case "string":
-        return rich + bl.repeat(pad);
-      case "number":
-        return bl.repeat(pad) + rich;
       default:
         return bl.repeat(pad);
     }
@@ -127,7 +128,6 @@ export class Table {
   /** Render a row of content */
   private renderRow(row: CellTypes[], isHeader = false): string {
     const sym = this.theme.row;
-    // TODO: Cache widths instead of calculating for each row
     const w = this.columnWidth();
     return (
       sym[0] +
